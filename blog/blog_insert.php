@@ -1,10 +1,15 @@
 <?php
 $page_title = '新增資料';
-$page_name = 'insert';
+$page_name = 'blog_insert';
 require __DIR__ . '/../config/_connect_db.php';
 
 // 判斷是否登入,如未登入將轉導
 // require __DIR__. '/0831_admin_required.php';
+// $type = array(
+//     1 => '歷史',
+//     2 => '趨勢',
+//     3 => '合作',
+// )
 ?>
 <?php require __DIR__ . '/../views/_html_head.php'; ?>
 <style>
@@ -31,7 +36,39 @@ require __DIR__ . '/../config/_connect_db.php';
                     <h5 class="card-title">新增資料</h5>
 
                     <form name="form1" onsubmit="checkForm(); return false;" novalidate>
+
+
+                    <!-- <div class="form-group">
+                            <label for="picture"></label>
+                            <img id="myimg" style="margin-right: 10px;" src="../uploads/<?= htmlentities($row['picture']) ?>" height="100" alt="Image preview...">
+                            <button type="button" class="btn btn-warning" onclick="file_input.click()">更換頭貼</button>
+                            <input value="<?= htmlentities($row['picture']) ?>" hidden type="text" id="picture" name="picture">
+                            <small class="form-text error-msg"></small>
+                        </div>
+                        <input style="display: none;" type="file" id="file_input"> -->
+
+
                         <div class="form-group">
+                            <label for="theme"><span class="red-stars"></span>theme</label>
+                            <select class="form-control" id="theme" name="theme" required>
+                                <option value="1" <?//= $type['theme'] == 1 ? 'selected="selected"' : ''; ?>>歷史主題</option>
+                                <option value="2" <?//= $type['theme'] == 2 ? 'selected="selected"' : ''; ?>>趨勢主題</option>
+                                <option value="3" <?//= $type['theme'] == 3 ? 'selected="selected"' : ''; ?>>合作主題</option>
+                            </select>
+                            <small class="form-text error-msg"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="text"><span class="red-stars">*</span>text</label>
+                            <textarea class="form-control" name="text" id="text" cols="30" rows="3"><?//= htmlentities($row['text']) ?></textarea>
+                            <small class="form-text error-msg"></small>
+                        </div>
+
+
+
+
+
+                        <!-- <div class="form-group">
                             <label for="name"><span class="red-stars">*</span>name</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                             <small class="form-text error-msg"></small>
@@ -59,13 +96,13 @@ require __DIR__ . '/../config/_connect_db.php';
                             <label for="address">address</label>
                             <textarea class="form-control" name="address" id="address" cols="30" rows="3"></textarea>
                             <small class="form-text error-msg"></small>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
-                            <label for="avatar"></label>
+                            <label for="picture""></label>
                             <img style="margin-right: 10px;" src="../uploads/images.png" height="100" alt="Image preview...">
                             <input type="file" id="upload_image">
-                            <input hidden type="text" id="avatar" name="avatar">
+                            <input hidden type="text" id="picture" name="picture">
                             <small class="form-text error-msg"></small>
                             <!-- 這是 DOM level 1 的寫法
                             用 DOM lv3 的寫法(addEventListener)
@@ -108,12 +145,12 @@ require __DIR__ . '/../config/_connect_db.php';
     const email_pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     const mobile_pattern = /^09\d{2}-?\d{3}-?\d{3}$/;
 
-    const $name = document.querySelector('#name');
-    const $email = document.querySelector('#email');
-    const $password = document.querySelector('#password')
-    const $mobile = document.querySelector('#mobile');
-    const $avatar = document.querySelector('#avatar');
-    const r_fields = [$name, $email, $password, $mobile, $avatar];
+    const $text = document.querySelector('#text');
+    // const $email = document.querySelector('#email');
+    // const $password = document.querySelector('#password')
+    // const $mobile = document.querySelector('#mobile');
+    const $picture = document.querySelector('#picture');
+    const r_fields = [$text,$picture];
 
     const infobar = document.querySelector('#infobar');
     const submitBtn = document.querySelector('button[type=submit]');
@@ -135,45 +172,51 @@ require __DIR__ . '/../config/_connect_db.php';
 
         // TODO: 檢查資料格式
 
-        if ($name.value.length < 2) {
-            isPass = false;
-            $name.style.borderColor = 'red';
-            $name.nextElementSibling.innerHTML = '請填寫正確的姓名';
+        // if ($name.value.length < 2) {
+        //     isPass = false;
+        //     $name.style.borderColor = 'red';
+        //     $name.nextElementSibling.innerHTML = '請填寫正確的姓名';
 
-            submitBtn.style.display = 'inline-block';
-        }
+        //     submitBtn.style.display = 'inline-block';
+        // }
 
-        if (!email_pattern.test($email.value)) {
-            isPass = false;
-            $email.style.borderColor = 'red';
-            $email.nextElementSibling.innerHTML = '請填寫正確格式的電子郵箱';
+        // if (!email_pattern.test($email.value)) {
+        //     isPass = false;
+        //     $email.style.borderColor = 'red';
+        //     $email.nextElementSibling.innerHTML = '請填寫正確格式的電子郵箱';
 
-            // submitBtn.style.display = 'inline-block';
-        }
+        //     // submitBtn.style.display = 'inline-block';
+        // }
 
-        console.dir($avatar)
+         console.dir($picture)
         // console.dir($password)
 
-        if (!$password.value) {
+        if (!$text.value) {
             isPass = false;
-            $password.style.borderColor = 'red';
-            $password.nextElementSibling.innerHTML = '請輸入密碼';
+            $text.style.borderColor = 'red';
+            $text.nextElementSibling.innerHTML = '此欄未填';
 
             // submitBtn.style.display = 'inline-block';
         }
 
-        if (!mobile_pattern.test($mobile.value)) {
-            isPass = false;
-            $mobile.style.borderColor = 'red';
-            $mobile.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
+        // if (!mobile_pattern.test($mobile.value)) {
+        //     isPass = false;
+        //     $mobile.style.borderColor = 'red';
+        //     $mobile.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
 
-            // submitBtn.style.display = 'inline-block';
-        }
-        if (!$avatar.value) {
+        //     // submitBtn.style.display = 'inline-block';
+        // }
+
+        if (!$picture.value) {
             isPass = false;
-            $avatar.style.borderColor = 'red';
-            $avatar.nextElementSibling.innerHTML = '請上傳頭像';
+            $picture.style.borderColor = 'red';
+            $picture.nextElementSibling.innerHTML = '請上傳頭像';
         }
+        // if (!$avatar.value) {
+        //     isPass = false;
+        //     $avatar.style.borderColor = 'red';
+        //     $avatar.nextElementSibling.innerHTML = '請上傳頭像';
+        // }
 
         if (isPass) {
             const fd = new FormData(document.form1);
@@ -195,7 +238,7 @@ require __DIR__ . '/../config/_connect_db.php';
 
             // console.log(0, fd, randomImage)
 
-            fetch('insert_api.php', {
+            fetch('blog_insert_api.php', {
                     method: 'POST',
                     body: fd
                 })
@@ -210,7 +253,7 @@ require __DIR__ . '/../config/_connect_db.php';
                         //     infobar.classList.replace('alert-danger', 'alert-success')
                         // }
                         setTimeout(() => {
-                            location.href = 'members_data_list.php';
+                            location.href = 'blog_data_list.php';
                         }, 1000)
 
 
@@ -255,17 +298,17 @@ require __DIR__ . '/../config/_connect_db.php';
     }
 
 
-    const avatar = document.querySelector('#upload_image');
+    const picture = document.querySelector('#upload_image');
 
-    avatar.addEventListener('change', function(event) {
+    picture.addEventListener('change', function(event) {
 
         // 生成瀏覽圖片
         previewFile()
 
         const fd = new FormData();
-        fd.append('myfile', avatar.files[0]);
+        fd.append('myfile', picture.files[0]);
 
-        fetch('upload_api.php', {
+        fetch('../members/upload_api.php', {
                 method: 'POST',
                 body: fd
             })
@@ -274,7 +317,7 @@ require __DIR__ . '/../config/_connect_db.php';
                 // avatar.value = obj.filename;
 
                 console.log(obj.filename, '  obj.filename  ')
-                document.querySelector('#avatar').value = obj.filename;
+                document.querySelector('#picture').value = obj.filename;
             })
     });
 

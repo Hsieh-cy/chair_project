@@ -4,7 +4,7 @@ require __DIR__ . '/../config/_connect_db.php';
 
 header('Content-Type: application/json');
 
-$path = __DIR__ . '/../uploadsuploads/';
+$path = __DIR__ . '/../uploads/';
 $output = [
     'success' => false,
     'error' => '沒有上傳檔案',

@@ -81,7 +81,7 @@ if ($totalRows > 0) {
                     <td><?= $r['sid'] ?></td>
                     <td><?= $r['name'] ?></td>
                     <td>
-                        <img class="avatar_img" src="../uploadsuploads/<?= $r['avatar']; ?>" alt="會員頭像">
+                        <img class="avatar_img" src="../uploads/<?= $r['avatar']; ?>" alt="會員頭像">
                     </td>
                     <td><?= $r['email'] ?></td>
                     <td><?= $r['password'] ?></td>

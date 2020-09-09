@@ -72,9 +72,9 @@ if (empty($row)) {
 
                         <div class="form-group">
                             <label for="avatar"></label>
-                            <img id="myimg" style="margin-right: 10px;" src="../uploadsuploads/<?= htmlentities($row['avatar']) ?>" height="100" alt="Image preview...">
+                            <img id="myimg" style="margin-right: 10px;" src="../uploads/<?= htmlentities($row['avatar']) ?>" height="100" alt="Image preview...">
                             <button type="button" class="btn btn-warning" onclick="file_input.click()">更換頭貼</button>
-                            <input hidden type="text" id="avatar" name="avatar">
+                            <input value="<?= htmlentities($row['avatar']) ?>" hidden type="text" id="avatar" name="avatar">
                             <small class="form-text error-msg"></small>
                         </div>
                         <input style="display: none;" type="file" id="file_input">
@@ -181,7 +181,7 @@ if (empty($row)) {
             .then(r => r.json())
             .then(obj => {
                 avatar.value = obj.filename;
-                document.querySelector('#myimg').src = './../uploadsuploads/' + obj.filename;
+                document.querySelector('#myimg').src = './../uploads/' + obj.filename;
             });
     });
 </script>
